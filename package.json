@@ -1,0 +1,35 @@
+{
+  "name": "income_biyori",
+  "version": "1.0.0",
+  "description": "高配当株を分析してみるElectronアプリを作る",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "./node_modules/.bin/electron .",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanabe-Yumi/income_biyori.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tanabe-Yumi/income_biyori/issues"
+  },
+  "homepage": "https://github.com/Tanabe-Yumi/income_biyori#readme",
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.electron.income_biyori",
+    "productName": "Income Biyori",
+    "win": {
+      "target": "portable"
+    },
+    "mac": {
+      "target": "dir"
+    }
+  }
+}
