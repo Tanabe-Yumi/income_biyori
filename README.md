@@ -1,0 +1,2 @@
+# income_biyori
+高配当株を分析してみるElectronアプリを作る
