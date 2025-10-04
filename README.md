@@ -3,5 +3,5 @@
 
 ## How to use
 ```bash
-npm run test
+npm run dev
 ```
