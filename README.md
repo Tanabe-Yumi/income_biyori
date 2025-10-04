@@ -3,5 +3,7 @@
 
 ## How to use
 ```bash
+cd income_biyori
+npm install
 npm run dev
 ```
