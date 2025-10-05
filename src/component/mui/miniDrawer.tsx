@@ -16,8 +16,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import PieChartIcon from '@mui/icons-material/PieChart';
 
 import Content from '../layout/list/content';
 
@@ -108,6 +110,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const navListItems = [
+    { text: 'List', icon: <FormatListBulletedIcon /> },
+    { text: 'Chart', icon: <PieChartIcon /> },
+  ]
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -149,8 +155,8 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {navListItems.map((dict) => (
+            <ListItem key={dict.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={[
                   {
@@ -181,10 +187,10 @@ export default function MiniDrawer() {
                         },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {dict.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={text}
+                  primary={dict.text}
                   sx={[
                     open
                       ? {
