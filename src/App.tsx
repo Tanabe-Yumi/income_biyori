@@ -1,14 +1,12 @@
 import './App.css'
 
-import BasicTable from './component/BasicTable'
-import DataTable from './component/DataTable'
+import MiniDrawer from './component/mui/miniDrawer';
 
 function App() {
   return (
-    <>
-      {/* <BasicTable /> */}
-      <DataTable />
-    </>
+    <MiniDrawer />
+
+    // <MiniDrawer content={table} ></MiniDrawer>
   )
 }
 
