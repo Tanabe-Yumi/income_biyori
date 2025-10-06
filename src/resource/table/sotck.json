@@ -1,0 +1,214 @@
+{
+  "stock": [
+    {
+      "code": "8306",
+      "name": "三菱UFJフィナンシャル・グループ",
+      "market": "prime",
+      "sector": "銀行業",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "7203",
+      "name": "トヨタ自動車",
+      "market": "prime",
+      "sector": "輸送用機器",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "9433",
+      "name": "KDDI",
+      "market": "prime",
+      "sector": "情報・通信業",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "9984",
+      "name": "ソフトバンクグループ",
+      "market": "prime",
+      "sector": "情報・通信業",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "6758",
+      "name": "ソニーグループ",
+      "market": "prime",
+      "sector": "電気機器",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "8306",
+      "name": "三菱ＵＦＪフィナンシャル・グループ",
+      "market": "prime",
+      "sector": "銀行業",
+      "price": 1450,
+      "dividend": 55,
+      "yield": 3.79,
+      "totalScore": 34
+    },
+    {
+      "code": "4502",
+      "name": "武田薬品工業",
+      "market": "prime",
+      "sector": "医薬品",
+      "price": 4500,
+      "dividend": 180,
+      "yield": 4.0,
+      "totalScore": 28
+    },
+    {
+      "code": "9432",
+      "name": "日本電信電話（ＮＴＴ）",
+      "market": "prime",
+      "sector": "情報・通信業",
+      "price": 185,
+      "dividend": 6.0,
+      "yield": 3.24,
+      "totalScore": 38
+    },
+    {
+      "code": "2914",
+      "name": "日本たばこ産業（ＪＴ）",
+      "market": "prime",
+      "sector": "食料品",
+      "price": 3950,
+      "dividend": 200,
+      "yield": 5.06,
+      "totalScore": 36
+    },
+    {
+      "code": "5020",
+      "name": "ＥＮＥＯＳホールディングス",
+      "market": "prime",
+      "sector": "石油・石炭製品",
+      "price": 610,
+      "dividend": 28,
+      "yield": 4.59,
+      "totalScore": 30
+    },
+    {
+      "code": "8058",
+      "name": "三菱商事",
+      "market": "prime",
+      "sector": "卸売業",
+      "price": 3400,
+      "dividend": 180,
+      "yield": 5.29,
+      "totalScore": 37
+    },
+    {
+      "code": "8591",
+      "name": "オリックス",
+      "market": "prime",
+      "sector": "その他金融業",
+      "price": 2870,
+      "dividend": 100,
+      "yield": 3.48,
+      "totalScore": 33
+    },
+    {
+      "code": "3382",
+      "name": "セブン＆アイ・ホールディングス",
+      "market": "prime",
+      "sector": "小売業",
+      "price": 6500,
+      "dividend": 220,
+      "yield": 3.38,
+      "totalScore": 31
+    },
+    {
+      "code": "4503",
+      "name": "アステラス製薬",
+      "market": "prime",
+      "sector": "医薬品",
+      "price": 1650,
+      "dividend": 70,
+      "yield": 4.24,
+      "totalScore": 29
+    },
+    {
+      "code": "9202",
+      "name": "ＡＮＡホールディングス",
+      "market": "prime",
+      "sector": "空運業",
+      "price": 3250,
+      "dividend": 120,
+      "yield": 3.69,
+      "totalScore": 27
+    },
+    {
+      "code": "6758",
+      "name": "ソニーグループ",
+      "market": "prime",
+      "sector": "電気機器",
+      "price": 13800,
+      "dividend": 280,
+      "yield": 2.03,
+      "totalScore": 35
+    },
+    {
+      "code": "7203",
+      "name": "トヨタ自動車",
+      "market": "prime",
+      "sector": "輸送用機器",
+      "price": 3100,
+      "dividend": 140,
+      "yield": 4.52,
+      "totalScore": 37
+    },
+    {
+      "code": "7751",
+      "name": "キヤノン",
+      "market": "prime",
+      "sector": "電気機器",
+      "price": 4400,
+      "dividend": 190,
+      "yield": 4.32,
+      "totalScore": 32
+    },
+    {
+      "code": "4063",
+      "name": "信越化学工業",
+      "market": "prime",
+      "sector": "化学",
+      "price": 6000,
+      "dividend": 270,
+      "yield": 4.5,
+      "totalScore": 39
+    },
+    {
+      "code": "8031",
+      "name": "三井物産",
+      "market": "prime",
+      "sector": "卸売業",
+      "price": 3400,
+      "dividend": 160,
+      "yield": 4.7,
+      "totalScore": 36
+    },
+    {
+      "code": "8316",
+      "name": "三井住友フィナンシャルグループ",
+      "market": "prime",
+      "sector": "銀行業",
+      "price": 7800,
+      "dividend": 340,
+      "yield": 4.36,
+      "totalScore": 35
+    }
+  ]
+}
