@@ -1,0 +1,59 @@
+{
+  "column": [
+    {
+      "field": "code",
+      "headerName": "コード",
+      "type": "string",
+      "align": "center",
+      "flex": 1.0,
+      "unit": ""
+    },
+    {
+      "field": "name",
+      "headerName": "名称",
+      "type": "string",
+      "align": "left",
+      "flex": 3.0,
+      "unit": ""
+    },
+    {
+      "field": "sector",
+      "headerName": "セクター",
+      "type": "string",
+      "align": "left",
+      "flex": 1.5,
+      "unit": ""
+    },
+    {
+      "field": "price",
+      "headerName": "株価",
+      "type": "number",
+      "align": "right",
+      "flex": 1.0,
+      "unit": ""
+    },
+    {
+      "field": "dividend",
+      "headerName": "一株配当",
+      "type": "number",
+      "align": "right",
+      "flex": 1.0,
+      "unit": ""
+    },
+    {
+      "field": "yield",
+      "headerName": "配当利回り",
+      "type": "number",
+      "align": "right",
+      "flex": 1.0,
+      "unit": "%"
+    },
+    {
+      "field": "totalScore",
+      "headerName": "スコア",
+      "type": "number",
+      "flex": 1.0,
+      "unit": ""
+    }
+  ]
+}
