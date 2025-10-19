@@ -1,7 +1,10 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+
+// import { getAllStocks } from '../src/db/stocksTable.ts'
+import StocksTable from '../src/db/stocksTable.ts'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -71,3 +74,15 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(createWindow)
+
+// 参照: 全ての株式情報を取得
+ipcMain.handle('getAllStocks', async () => {
+  try {
+    const stocksTable = new StocksTable();
+    const stocks = await stocksTable.getAllStocks();
+    return stocks;
+  } catch (error) {
+    console.error('getAllStocks:', error);
+    throw new Error('株式情報の取得に失敗しました');
+  }
+});
