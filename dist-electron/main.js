@@ -1,8 +1,97 @@
-import { app, BrowserWindow } from "electron";
-import { createRequire } from "node:module";
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+import { app, BrowserWindow, ipcMain } from "electron";
+import { createRequire as createRequire$1 } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-createRequire(import.meta.url);
+import { createRequire } from "module";
+import { promisify } from "util";
+class Stock {
+  constructor(code, name, market, sector, created_at, updated_at) {
+    // PK
+    __publicField(this, "code");
+    __publicField(this, "name");
+    // FK
+    __publicField(this, "market");
+    // FK
+    __publicField(this, "sector");
+    __publicField(this, "created_at");
+    __publicField(this, "updated_at");
+    this.code = code;
+    this.name = name;
+    this.market = market;
+    this.sector = sector;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
+  }
+  getCode() {
+    return this.code;
+  }
+  getName() {
+    return this.name;
+  }
+  getMarket() {
+    return this.market;
+  }
+  getSector() {
+    return this.sector;
+  }
+  getCreatedAt() {
+    return this.created_at;
+  }
+  getUpdatedAt() {
+    return this.updated_at;
+  }
+}
+const require$1 = createRequire(import.meta.url);
+const sqlite3$1 = require$1("sqlite3").verbose();
+class Database {
+  constructor() {
+    __publicField(this, "dbGet");
+    __publicField(this, "dbAll");
+    __publicField(this, "dbRun");
+    const db2 = new sqlite3$1.Database("stocks.db");
+    this.dbGet = promisify(db2.get.bind(db2));
+    this.dbAll = promisify(db2.all.bind(db2));
+    this.dbRun = function(arg) {
+      return new Promise((resolve, reject) => {
+        db2.run.apply(
+          db2,
+          [
+            arg,
+            function(err) {
+              err ? reject(err) : resolve(this);
+            }
+          ]
+        );
+      });
+    };
+  }
+}
+const require2 = createRequire(import.meta.url);
+const sqlite3 = require2("sqlite3").verbose();
+const db = new sqlite3.Database("stocks.db", (err) => {
+  if (err) {
+    console.error("データベース接続エラー:", err.message);
+  } else {
+    console.log("データベース接続成功:", "stocks.db");
+  }
+});
+class StocksTable extends Database {
+  async getAllStocks() {
+    return new Promise((resolve, reject) => {
+      db.all("SELECT * FROM stocks", (err, rows) => {
+        err ? reject(err) : resolve(rows);
+      });
+    });
+  }
+  async selectStockByCode(code) {
+    const data = await this.dbGet(`SELECT * FROM stocks WHERE code = "${code}"`);
+    return new Stock(data.code, data.name, data.market, data.sector, data.created_at, data.updated_at);
+  }
+}
+createRequire$1(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname, "..");
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -43,6 +132,16 @@ app.on("activate", () => {
   }
 });
 app.whenReady().then(createWindow);
+ipcMain.handle("getAllStocks", async () => {
+  try {
+    const stocksTable = new StocksTable();
+    const stocks = await stocksTable.getAllStocks();
+    return stocks;
+  } catch (error) {
+    console.error("getAllStocks:", error);
+    throw new Error("株式情報の取得に失敗しました");
+  }
+});
 export {
   MAIN_DIST,
   RENDERER_DIST,
