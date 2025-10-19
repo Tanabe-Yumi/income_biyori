@@ -17,6 +17,20 @@ const db = new sqlite3.Database('stocks.db', (err: Error | null) => {
   )`, (err2: Error | null) => {
     if (err2) console.error('Create table error:', err2);
     else console.log('Table ensured.');
+    // db.close();
+  });
+
+  db.run(`INSERT INTO stocks (code, name, market, sector, created_at, updated_at)
+    VALUES (
+      "7203",
+      "トヨタ自動車",
+      1,
+      17,
+      "${new Date().toISOString()}",
+      "${new Date().toISOString()}"
+    )`, (err2: Error | null) => {
+    if (err2) console.error('Create table error:', err2);
+    else console.log('Inserted.');
     db.close();
   });
 });
