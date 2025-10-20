@@ -47,6 +47,9 @@ function createWindow() {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
   })
 
+  // デベロッパーツールを別ウィンドウで起動
+  win.webContents.openDevTools({ mode: 'detach' });
+
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
   } else {
