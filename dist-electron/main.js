@@ -7,43 +7,6 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { createRequire } from "module";
 import { promisify } from "util";
-class Stock {
-  constructor(code, name, market, sector, created_at, updated_at) {
-    // PK
-    __publicField(this, "code");
-    __publicField(this, "name");
-    // FK
-    __publicField(this, "market");
-    // FK
-    __publicField(this, "sector");
-    __publicField(this, "created_at");
-    __publicField(this, "updated_at");
-    this.code = code;
-    this.name = name;
-    this.market = market;
-    this.sector = sector;
-    this.created_at = created_at;
-    this.updated_at = updated_at;
-  }
-  getCode() {
-    return this.code;
-  }
-  getName() {
-    return this.name;
-  }
-  getMarket() {
-    return this.market;
-  }
-  getSector() {
-    return this.sector;
-  }
-  getCreatedAt() {
-    return this.created_at;
-  }
-  getUpdatedAt() {
-    return this.updated_at;
-  }
-}
 const require$1 = createRequire(import.meta.url);
 const sqlite3$1 = require$1("sqlite3").verbose();
 class Database {
@@ -86,10 +49,10 @@ class StocksTable extends Database {
       });
     });
   }
-  async selectStockByCode(code) {
-    const data = await this.dbGet(`SELECT * FROM stocks WHERE code = "${code}"`);
-    return new Stock(data.code, data.name, data.market, data.sector, data.created_at, data.updated_at);
-  }
+  // public async selectStockByCode(code: string) {
+  //   const data = await this.dbGet(`SELECT * FROM stocks WHERE code = "${code}"`);
+  //   return new Stock(data.code, data.name, data.market, data.sector, data.created_at, data.updated_at);
+  // }
 }
 createRequire$1(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -114,6 +77,7 @@ function createWindow() {
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
+  win.webContents.openDevTools({ mode: "detach" });
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
