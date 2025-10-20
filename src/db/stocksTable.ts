@@ -17,7 +17,7 @@ const db = new sqlite3.Database('stocks.db', (err) => {
 // FOREIGN KEY(market) REFERENCES markets(id),
 // FOREIGN KEY(sector) REFERENCES sectors(id),
 
-export default class StocksTable extends Database {
+export default class StocksTable {
   public async getAllStocks(): Promise<Stock[]> {
     return new Promise((resolve, reject) => {
       db.all('SELECT * FROM stocks', (err, rows) => {
@@ -25,9 +25,4 @@ export default class StocksTable extends Database {
       });
     });
   }
-
-  // public async selectStockByCode(code: string) {
-  //   const data = await this.dbGet(`SELECT * FROM stocks WHERE code = "${code}"`);
-  //   return new Stock(data.code, data.name, data.market, data.sector, data.created_at, data.updated_at);
-  // }
 }
