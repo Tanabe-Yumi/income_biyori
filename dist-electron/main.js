@@ -15,7 +15,23 @@ const db = new sqlite3.Database("stocks.db", (err) => {
 class StocksTable {
   async getAllStocks() {
     return new Promise((resolve, reject) => {
-      db.all("SELECT * FROM stocks", (err, rows) => {
+      db.all(`
+        SELECT
+          s.code,
+          s.name AS name,
+          m.name AS market,
+          t.name AS sector,
+          p.price AS price,
+          p.dividend AS dividend,
+          p.yield AS yield,
+          p.total_score AS total_score,
+          s.created_at,
+          s.updated_at
+        FROM stocks AS s
+        INNER JOIN markets AS m ON s.market = m.id
+        INNER JOIN sectors AS t ON s.sector = t.id
+        INNER JOIN stockPerformances AS p ON s.code = p.code;
+        `, (err, rows) => {
         err ? reject(err) : resolve(rows);
       });
     });

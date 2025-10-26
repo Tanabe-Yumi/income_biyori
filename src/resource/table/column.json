@@ -49,7 +49,7 @@
       "unit": "%"
     },
     {
-      "field": "totalScore",
+      "field": "total_score",
       "headerName": "スコア",
       "type": "number",
       "flex": 1.0,
