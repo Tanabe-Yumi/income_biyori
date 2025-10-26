@@ -1,4 +1,4 @@
-import Stock from '../general/stock.ts';
+import Stock from '../general/stockData.ts';
 
 export const getAllStocks = async (): Promise<Stock[]> => {
   if (!window.electronAPI || !window.electronAPI.getAllStocks) {
