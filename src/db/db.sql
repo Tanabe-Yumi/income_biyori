@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS stocks (
   name TEXT NOT NULL,
   market INTEGER,
   sector INTEGER,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
   FOREIGN KEY(market) REFERENCES markets(id),
   FOREIGN KEY(sector) REFERENCES sectors(id)
 );
@@ -31,16 +31,31 @@ CREATE TABLE IF NOT EXISTS stockPerformances (
   price INTEGER,
   dividend INTEGER,
   yield REAL,
-  total_score INTEGER,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
   FOREIGN KEY(code) REFERENCES stocks(code)
 );
 
+-- scoresテーブル
+CREATE TABLE IF NOT EXISTS scores (
+  code TEXT PRIMARY KEY NOT NULL,
+  total_score INTEGER,
+  sales_score INTEGER,
+  operating_profit_score INTEGER,
+  eps_score INTEGER,
+  equity_ratio_score INTEGER,
+  sales_cf_score INTEGER,
+  cash_score INTEGER,
+  dividend_per_share_score INTEGER,
+  dividend_payout_ratio_score INTEGER,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL
+);
+
 -- 初期データ挿入
-INSERT INTO markets (id, name) VALUES (1, "東証プライム");
-INSERT INTO markets (id, name) VALUES (2, "東証スタンダード");
-INSERT INTO markets (id, name) VALUES (3, "東証グロース");
+INSERT INTO markets (id, name) VALUES (1, "東証PRM");
+INSERT INTO markets (id, name) VALUES (2, "東証STD");
+INSERT INTO markets (id, name) VALUES (3, "東証GRT");
 
 INSERT INTO sectors (id, name) VALUES (1, "水産・農林業");
 INSERT INTO sectors (id, name) VALUES (2, "鉱業");
@@ -75,5 +90,6 @@ INSERT INTO sectors (id, name) VALUES (30, "保険業");
 INSERT INTO sectors (id, name) VALUES (31, "その他金融業");
 INSERT INTO sectors (id, name) VALUES (32, "不動産業");
 INSERT INTO sectors (id, name) VALUES (33, "サービス業");
+INSERT INTO sectors (id, name) VALUES (34, "REIT");
 INSERT INTO sectors (id, name) VALUES (99, "分類外");
   

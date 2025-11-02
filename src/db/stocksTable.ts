@@ -25,13 +25,14 @@ export default class StocksTable {
           p.price AS price,
           p.dividend AS dividend,
           p.yield AS yield,
-          p.total_score AS total_score,
+          scores.total_score,
           s.created_at,
           s.updated_at
         FROM stocks AS s
         INNER JOIN markets AS m ON s.market = m.id
         INNER JOIN sectors AS t ON s.sector = t.id
-        INNER JOIN stockPerformances AS p ON s.code = p.code;
+        INNER JOIN stockPerformances AS p ON s.code = p.code
+        INNER JOIN scores ON s.code = scores.code;
         `, (err, rows) => {
         err ? reject(err) : resolve(rows);
       });
