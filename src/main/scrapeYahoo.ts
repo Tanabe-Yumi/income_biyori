@@ -33,7 +33,6 @@ export default async function fetchDividendRanking(yieldThreshold = 3.5) {
     }
   }
 
-  console.log(stocks);
   return stocks;
 }
 
@@ -43,7 +42,9 @@ export async function getSector(code: string) {
   const { data } = await axios.get(url);
   const $ = cheerio.load(data);
 
-  const sector = $('#industry > a').text().trim();
+  let sector = $('#industry > a').text().trim();
+  if (!sector) sector = $('#industry > span.PriceBoard__industryName__3vYM').text().trim();
+
   return sector;
 }
 
