@@ -122,10 +122,11 @@ class StocksTable {
           s.created_at,
           s.updated_at
         FROM stocks AS s
-        INNER JOIN markets AS m ON s.market = m.id
-        INNER JOIN sectors AS t ON s.sector = t.id
         INNER JOIN stockPerformances AS p ON s.code = p.code
-        INNER JOIN scores ON s.code = scores.code;
+        LEFT JOIN markets AS m ON s.market = m.id
+        LEFT JOIN sectors AS t ON s.sector = t.id
+        -- INNER JOIN scores ON s.code = scores.code;
+        LEFT JOIN scores ON s.code = scores.code;
         `, (err, rows) => {
         err ? reject(err) : resolve2(rows);
       });
@@ -164,6 +165,47 @@ class StocksTable {
           s.name,
           market_id,
           sector_id,
+          s.created_at ?? now,
+          s.updated_at ?? now
+        ];
+        await runAsync(insertSql, params);
+      }
+      await runAsync("COMMIT");
+      return true;
+    } catch (err) {
+      try {
+        await runAsync("ROLLBACK");
+      } catch (rollbackErr) {
+        console.error("Rollback failed", rollbackErr);
+      }
+      throw err;
+    }
+  }
+  async upsertStockPerformances(stocks) {
+    if (!stocks || stocks.length === 0) return true;
+    const insertSql = `
+      INSERT INTO stockPerformances (code, price, dividend, yield, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(code) DO UPDATE SET
+        price = excluded.price,
+        dividend = excluded.dividend,
+        yield = excluded.yield,
+        updated_at = excluded.updated_at
+    `;
+    const runAsync = (sql, params = []) => new Promise((resolve2, reject) => {
+      db.run(sql, params, function(err) {
+        err ? reject(err) : resolve2();
+      });
+    });
+    try {
+      await runAsync("BEGIN TRANSACTION");
+      for (const s of stocks) {
+        const now = (/* @__PURE__ */ new Date()).toISOString();
+        const params = [
+          s.code,
+          s.price,
+          s.dividend,
+          s.yield,
           s.created_at ?? now,
           s.updated_at ?? now
         ];
@@ -64296,10 +64338,10 @@ async function fetchDividendRanking(yieldThreshold = 3.5) {
       const dividend = parseFloat($el.find("td:nth-child(5)").text().trim().replace(/,/g, "")) || 0;
       const yieldRate = parseFloat($el.find("td:nth-child(6)").text().trim()) || 0;
       const sector = await getSector(code);
-      stocks.push({ code, name, market, sector, price, dividend, yieldRate });
+      stocks.push({ code, name, market, sector, price, dividend, yield: yieldRate });
       await new Promise((resolve2) => setTimeout(resolve2, 3e3));
     }
-    if (stocks.length > 0 && stocks.at(-1).yieldRate < yieldThreshold) {
+    if (stocks.length > 0 && stocks.at(-1).yield < yieldThreshold) {
       break;
     }
   }
@@ -64367,14 +64409,15 @@ ipcMain.handle("getAllStocks", async () => {
 });
 ipcMain.handle("getHighDivendStocks", async () => {
   try {
-    const yieldThreshold = 3.5;
+    const yieldThreshold = 6;
     console.log("Fetching high dividend stocks with yield >=", yieldThreshold);
     const stocks = await fetchDividendRanking(yieldThreshold);
-    console.log("Updating database with high dividend stocks...");
+    console.log("Updating database...");
     const stocksTable = new StocksTable();
-    const result = await stocksTable.upsertStocks(stocks);
+    const result_stocks = await stocksTable.upsertStocks(stocks);
+    const result_stockperformances = await stocksTable.upsertStockPerformances(stocks);
     console.log("Database update completed.");
-    return result;
+    return result_stocks && result_stockperformances;
   } catch (error) {
     console.error("getHighDivendStocks:", error);
     throw new Error("高配当株リストの更新に失敗しました");

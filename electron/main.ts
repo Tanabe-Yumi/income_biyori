@@ -93,15 +93,16 @@ ipcMain.handle('getAllStocks', async () => {
 // 高配当株リストを取得してDBに保存する
 ipcMain.handle('getHighDivendStocks', async () => {
   try {
-    const yieldThreshold = 3.5;
+    const yieldThreshold = 6;
     console.log('Fetching high dividend stocks with yield >=', yieldThreshold);
     const stocks = await fetchDividendRanking(yieldThreshold);
     // DBに保存
-    console.log('Updating database with high dividend stocks...');
+    console.log('Updating database...');
     const stocksTable = new StocksTable();
-    const result = await stocksTable.upsertStocks(stocks);
+    const result_stocks = await stocksTable.upsertStocks(stocks);
+    const result_stockperformances = await stocksTable.upsertStockPerformances(stocks);
     console.log('Database update completed.');
-    return result;
+    return result_stocks && result_stockperformances;
 
     // DBから取得し直す
   } catch (error) {
