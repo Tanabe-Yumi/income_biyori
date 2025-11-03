@@ -43,18 +43,46 @@ const db = new sqlite3.Database(dbFile, (err: Error | null) => {
 
           // 続けて stockPerformances に挿入
           db.run(
-            `INSERT OR IGNORE INTO stockPerformances (code, price, dividend, yield, total_score, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ['7203', 1450, 55, 3.79, 34, now, now],
+            `INSERT OR IGNORE INTO stockPerformances (code, price, dividend, yield, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`,
+            ['7203', 1450, 55, 3.79, now, now],
             function (perfInsertErr: Error | null) {
               if (perfInsertErr) {
                 console.error('Insert stockPerformances error:', perfInsertErr);
-              } else {
-                console.log('Insert stockPerformances succeeded.');
+                db.close();
+                return;
               }
-              // 最後に一度だけ閉じる
-              db.close((closeErr: Error | null) => {
-                if (closeErr) console.error('DB close error:', closeErr);
-              });
+              console.log('Insert stockPerformances succeeded.');
+
+              db.run(
+                `INSERT OR IGNORE INTO scores (
+                  code,
+                  total_score,
+                  sales_score,
+                  operating_profit_score,
+                  eps_score,
+                  equity_ratio_score,
+                  sales_cf_score,
+                  cash_score,
+                  dividend_per_share_score,
+                  dividend_payout_ratio_score,
+                  created_at,
+                  updated_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                ['7203', 32, 3, 5, 3, 5, 5, 5, 1, 5, now, now],
+                function (scoreInsertErr: Error | null) {
+                  if (scoreInsertErr) {
+                    console.error('Insert scores error:', scoreInsertErr);
+                  } else {
+                    console.log('Insert scores succeeded.');
+                  }
+
+                  // 最後に一度だけ閉じる
+                  db.close((closeErr: Error | null) => {
+                    if (closeErr) console.error('DB close error:', closeErr);
+                  });
+                }
+              );
             }
           );
         }

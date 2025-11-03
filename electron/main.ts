@@ -3,8 +3,8 @@ import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-// import { getAllStocks } from '../src/db/stocksTable.ts'
 import StocksTable from '../src/db/stocksTable.ts'
+import fetchDividendRanking from '../src/main/scrapeYahoo.ts'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -87,5 +87,26 @@ ipcMain.handle('getAllStocks', async () => {
   } catch (error) {
     console.error('getAllStocks:', error);
     throw new Error('株式情報の取得に失敗しました');
+  }
+});
+
+// 高配当株リストを取得してDBに保存する
+ipcMain.handle('getHighDivendStocks', async () => {
+  try {
+    const yieldThreshold = 6;
+    console.log('Fetching high dividend stocks with yield >=', yieldThreshold);
+    const stocks = await fetchDividendRanking(yieldThreshold);
+    // DBに保存
+    console.log('Updating database...');
+    const stocksTable = new StocksTable();
+    const result_stocks = await stocksTable.upsertStocks(stocks);
+    const result_stockperformances = await stocksTable.upsertStockPerformances(stocks);
+    console.log('Database update completed.');
+    return result_stocks && result_stockperformances;
+
+    // DBから取得し直す
+  } catch (error) {
+    console.error('getHighDivendStocks:', error);
+    throw new Error('高配当株リストの更新に失敗しました');
   }
 });

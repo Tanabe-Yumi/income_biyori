@@ -3,7 +3,6 @@ import {
   DataGrid,
   GridColDef,
 } from '@mui/x-data-grid';
-// import Paper from '@mui/material/Paper';
 
 import Column from '../../resource/table/column.json';
 import StockData from '../../general/stockData.ts';
@@ -18,25 +17,29 @@ const paginationModel = { page: 0, pageSize: 10 };
 export default function DataTable() {
   const [rows, setRows] = React.useState<StockData[]>([]);
 
-  React.useEffect(() => {
-    (async () => {
-      try {
-        // preload で contextBridge 経由にしておく想定
-        // window.api.getStocks() は main/preload が sqlite3 を使って実装
-        // const data = await (window as any).api?.StocksTable.selectAllStocks() ?? [];
-        const data = await getAllStocks();
-        setRows(data);
-        console.log('DataTable: loaded rows', data);
-      } catch (err) {
-        console.error('DataTable: failed to load rows', err);
-      }
-    })();
+  const loadData = React.useCallback(async () => {
+    try {
+      const data = await getAllStocks();
+      setRows(data);
+    } catch (err) {
+      console.error('DataTable: failed to load rows', err);
+    }
   }, []);
 
-  (window as any).api?.off();
+  React.useEffect(() => {
+    loadData();
+    const onRefresh = () => {
+      loadData();
+    };
+    window.addEventListener('refreshStocks', onRefresh);
+    return () => {
+      window.removeEventListener('refreshStocks', onRefresh);
+    };
+  }, [loadData]);
+
+  // (window as any).api?.off();
 
   return (
-    // <Paper sx={{ height: '100%', width: '100%' }}>
     <DataGrid
       rows={rows}
       columns={columns}
@@ -54,6 +57,5 @@ export default function DataTable() {
         },
       }}
     />
-    // </Paper>
   );
 }

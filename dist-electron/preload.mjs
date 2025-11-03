@@ -21,5 +21,6 @@ electron.contextBridge.exposeInMainWorld("ipcRenderer", {
   // ...
 });
 electron.contextBridge.exposeInMainWorld("electronAPI", {
-  getAllStocks: () => electron.ipcRenderer.invoke("getAllStocks")
+  getAllStocks: () => electron.ipcRenderer.invoke("getAllStocks"),
+  getHighDivendStocks: () => electron.ipcRenderer.invoke("getHighDivendStocks")
 });
