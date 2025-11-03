@@ -22,13 +22,13 @@ export default async function fetchDividendRanking(yieldThreshold = 3.5) {
 
       const sector = await getSector(code);
 
-      stocks.push({ code, name, market, sector, price, dividend, yieldRate });
+      stocks.push({ code, name, market, sector, price, dividend, yield: yieldRate });
 
       // 3秒待つ
       await new Promise((resolve) => setTimeout(resolve, 3000));
     }
 
-    if (stocks.length > 0 && stocks.at(-1).yieldRate < yieldThreshold) {
+    if (stocks.length > 0 && stocks.at(-1).yield < yieldThreshold) {
       break;
     }
   }
